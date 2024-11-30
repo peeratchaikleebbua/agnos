@@ -1,141 +1,147 @@
 "use client";
 
 import React from "react";
-import { usePatientFormViewModel } from "../hooks/usePatientFormViewModel";
+import { IPatientFormViewModel } from "../hooks/usePatientFormViewModel";
 import TextField from "@/shared/components/TextField";
-import { usePatientFormSocket } from "../hooks/usePatientFormSocket";
-import { SOCKET_URL } from "@/infrastructures/socket-io/config/socket-io.config";
+import PatientFormContainer from "./PatientFormContainer";
 
-const PatientForm = () => {
-  const {
-    handleSubmit,
-    onSubmit,
-    register,
-    watch,
-    errors,
-    isValid,
-    isSubmitted
-  } = usePatientFormViewModel();
-
-  const {  } = usePatientFormSocket(
-    SOCKET_URL,
-    watch,
-    isSubmitted
-  );
-
+const PatientForm = ({
+  status,
+  handleSubmit,
+  onSubmit,
+  register,
+  errors,
+  isValid,
+  viewMode = false,
+}: IPatientFormViewModel) => {
   return (
-    <div className="relative min-h-screen flex items-center justify-center">
-      <div className=" shadow-md rounded-lg px-8 py-6 max-w-md">
-        {/* <div className="">
-          <Image
-            src={"next.svg"}
-            alt="patientFormImage"
-            
-            objectFit="contain"
+    <PatientFormContainer>
+      <p>
+        {status}
+      </p>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-3">
+          <TextField
+            label="First Name"
+            name="firstName"
+            register={register}
+            error={errors.firstName}
+            placeholder="Enter your first name"
+            viewMode={viewMode}
           />
-        </div> */}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-3">
-            <TextField
-              label="First Name"
-              name="firstName"
-              register={register}
-              error={errors.firstName}
-              placeholder="Enter your first name"
-            />
 
-            <TextField
-              label="Middle Name"
-              name="middleName"
-              register={register}
-              error={errors.middleName}
-              placeholder="Enter your middle name"
-            />
+          <TextField
+            label="Middle Name"
+            name="middleName"
+            register={register}
+            error={errors.middleName}
+            placeholder="Enter your middle name"
+            viewMode={viewMode}
+          />
 
-            <TextField
-              label="Last Name"
-              name="lastName"
-              register={register}
-              error={errors.lastName}
-              placeholder="Enter your last name"
-            />
+          <TextField
+            label="Last Name"
+            name="lastName"
+            register={register}
+            error={errors.lastName}
+            placeholder="Enter your last name"
+            viewMode={viewMode}
+          />
 
-            <TextField
-              label="Date of Birth"
-              name="dateOfBirth"
-              type="date"
-              register={register}
-              error={errors.dateOfBirth}
-            />
+          <TextField
+            label="Date of Birth"
+            name="dateOfBirth"
+            type="date"
+            register={register}
+            error={errors.dateOfBirth}
+            viewMode={viewMode}
+          />
 
-            <TextField
-              label="Phone Number"
-              name="phoneNumber"
-              type="tel"
-              register={register}
-              error={errors.phoneNumber}
-              placeholder="Enter your phone number"
-            />
+          <TextField
+            label="Gender"
+            name="gender"
+            register={register}
+            error={errors.gender}
+            placeholder="Enter your gender"
+            viewMode={viewMode}
+          />
 
-            <TextField
-              label="Email"
-              name="email"
-              type="email"
-              register={register}
-              error={errors.email}
-              placeholder="Enter your email"
-            />
+          <TextField
+            label="Phone Number"
+            name="phoneNumber"
+            type="tel"
+            register={register}
+            error={errors.phoneNumber}
+            placeholder="Enter your phone number"
+            viewMode={viewMode}
+          />
 
-            <TextField
-              label="Address"
-              name="address"
-              register={register}
-              error={errors.address}
-              placeholder="Enter your address"
-            />
+          <TextField
+            label="Email"
+            name="email"
+            type="email"
+            register={register}
+            error={errors.email}
+            placeholder="Enter your email"
+            viewMode={viewMode}
+          />
 
-            <TextField
-              label="Preferred Language"
-              name="preferredLanguage"
-              register={register}
-              error={errors.preferredLanguage}
-              placeholder="Enter your preferred language"
-            />
+          <TextField
+            label="Address"
+            name="address"
+            register={register}
+            error={errors.address}
+            placeholder="Enter your address"
+            viewMode={viewMode}
+          />
 
-            <TextField
-              label="Nationality"
-              name="nationality"
-              register={register}
-              error={errors.nationality}
-              placeholder="Enter your nationality"
-            />
+          <TextField
+            label="Preferred Language"
+            name="preferredLanguage"
+            register={register}
+            error={errors.preferredLanguage}
+            placeholder="Enter your preferred language"
+            viewMode={viewMode}
+          />
 
-            <TextField
-              label="Religion"
-              name="religion"
-              register={register}
-              error={errors.religion}
-              placeholder="Enter your religion"
-            />
+          <TextField
+            label="Nationality"
+            name="nationality"
+            register={register}
+            error={errors.nationality}
+            placeholder="Enter your nationality"
+            viewMode={viewMode}
+          />
 
-            {/* Nested Emergency Contact Fields */}
-            <TextField
-              label="Emergency Contact Name"
-              name="emergencyContact.name"
-              register={register}
-              error={errors.emergencyContact?.name}
-              placeholder="Enter emergency contact name"
-            />
+          <TextField
+            label="Religion"
+            name="religion"
+            register={register}
+            error={errors.religion}
+            placeholder="Enter your religion"
+            viewMode={viewMode}
+          />
 
-            <TextField
-              label="Emergency Contact Relationship"
-              name="emergencyContact.relationship"
-              register={register}
-              error={errors.emergencyContact?.relationship}
-              placeholder="Enter relationship"
-            />
-          </div>
+          {/* Nested Emergency Contact Fields */}
+          <TextField
+            label="Emergency Contact Name"
+            name="emergencyContact.name"
+            register={register}
+            error={errors.emergencyContact?.name}
+            placeholder="Enter emergency contact name"
+            viewMode={viewMode}
+          />
 
+          <TextField
+            label="Emergency Contact Relationship"
+            name="emergencyContact.relationship"
+            register={register}
+            error={errors.emergencyContact?.relationship}
+            placeholder="Enter relationship"
+            viewMode={viewMode}
+          />
+        </div>
+        {!viewMode && (
           <button
             disabled={!isValid}
             className={`mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded ${
@@ -145,9 +151,9 @@ const PatientForm = () => {
           >
             submit
           </button>
-        </form>
-      </div>
-    </div>
+        )}
+      </form>
+    </PatientFormContainer>
   );
 };
 

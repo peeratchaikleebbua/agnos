@@ -9,7 +9,7 @@ interface ITextField {
   register: UseFormRegister<any>;
   error?: FieldError;
   valueAsNumber?: boolean;
-  disabled?: boolean;
+  viewMode?: boolean;
 }
 
 const TextField = ({
@@ -20,7 +20,7 @@ const TextField = ({
   register,
   error,
   valueAsNumber,
-  disabled = false,
+  viewMode = false,
 }: ITextField) => {
   return (
     <div className="grid gap-2">
@@ -30,12 +30,12 @@ const TextField = ({
         </label>
       )}
       <input
-        disabled={disabled}
+        disabled={viewMode}
         id={name}
         type={type}
         placeholder={placeholder}
         {...register(name, valueAsNumber ? { valueAsNumber: true } : {})}
-        className={`w-full py-4 "shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${disabled && "bg-gray-100"}`}
+        className={`w-full py-4 "shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${viewMode && "bg-gray-100"}`}
       />
       {error && <span className="text-red-700">{error.message}</span>}
     </div>
