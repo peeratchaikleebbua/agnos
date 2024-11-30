@@ -3,13 +3,25 @@
 import React from "react";
 import { usePatientFormViewModel } from "../hooks/usePatientFormViewModel";
 import TextField from "@/shared/components/TextField";
-import Image from "next/image";
+import { usePatientFormSocket } from "../hooks/usePatientFormSocket";
+import { SOCKET_URL } from "@/infrastructures/socket-io/config/socket-io.config";
 
 const PatientForm = () => {
-  const { handleSubmit, onSubmit, register, watch, errors, setError, isValid } =
-    usePatientFormViewModel();
+  const {
+    handleSubmit,
+    onSubmit,
+    register,
+    watch,
+    errors,
+    isValid,
+    isSubmitted
+  } = usePatientFormViewModel();
 
-  console.log("watch", watch("dateOfBirth"));
+  const {  } = usePatientFormSocket(
+    SOCKET_URL,
+    watch,
+    isSubmitted
+  );
 
   return (
     <div className="relative min-h-screen flex items-center justify-center">

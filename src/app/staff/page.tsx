@@ -1,8 +1,10 @@
+import PatientForm from '@/features/patientForm/components/PatientForm'
 import React from 'react'
 
 const StaffPage = () => {
+  
   return (
-    <div>StaffPage</div>
+    <PatientForm />
   )
 }
 

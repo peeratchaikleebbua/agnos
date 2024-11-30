@@ -8,7 +8,7 @@ export const usePatientFormViewModel = () => {
     register,
     watch,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitSuccessful, isSubmitted },
     setError,
   } = useForm<PatientForm>({
     mode: "onChange",
@@ -42,6 +42,8 @@ export const usePatientFormViewModel = () => {
     setError,
     handleSubmit,
     onSubmit,
-    isValid
+    isValid,
+    isSubmitSuccessful,
+    isSubmitted
   };
 };

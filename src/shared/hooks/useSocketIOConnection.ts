@@ -13,10 +13,13 @@ const useSocketIOConnection = ({
   const socketRef = useRef<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
 
-  const socketClient = () => {
-    const socket = io({
+  const socketClient = (socketUrl: string) => {
+    const socket = io(socketUrl, {
+      autoConnect: true,
       transports: ["websocket"],
     });
+
+    socket.connect();
 
     socketRef.current = socket;
 
@@ -29,6 +32,7 @@ const useSocketIOConnection = ({
       setIsConnected(false);
       console.log("Disconnected");
     });
+    
     // Register custom event handlers
     /* EXAMPLE
     const eventHandlers = {
@@ -48,8 +52,6 @@ const useSocketIOConnection = ({
     socket.on(chat:message, (message) => {
         console.log('data');
     }
-
-
     },
     */
     if (eventHandlers) {
@@ -69,11 +71,7 @@ const useSocketIOConnection = ({
   };
 
   useEffect(() => {
-    socketClient();
-    // return () => {
-    //   socketRef?.current?.disconnect();
-    // };
-
+    socketClient(url);
     // Cleanup on component unmount
     return () => {
       if (eventHandlers) {
@@ -84,7 +82,7 @@ const useSocketIOConnection = ({
 
       socketRef.current?.disconnect();
     };
-  }, [url, eventHandlers]);
+  }, [url]);
 
   return {
     socket: socketRef.current,
