@@ -36,7 +36,7 @@ const TextField = ({
         type={type}
         placeholder={placeholder}
         {...register(name, valueAsNumber ? { valueAsNumber: true } : {})}
-        className={`w-full py-4 "shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+        className={`w-full py-2 px-3 "shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
           viewMode && "bg-gray-100"
         } ${error && "border-red-700"}`}
       />

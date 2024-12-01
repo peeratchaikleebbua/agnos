@@ -51,9 +51,9 @@ const PatientForm = ({
           <TextField
             label="Date of Birth"
             name="dateOfBirth"
-            type="date"
             register={register}
             error={errors.dateOfBirth}
+            placeholder="วันเกิด"
             viewMode={viewMode}
           />
 
@@ -113,15 +113,6 @@ const PatientForm = ({
             viewMode={viewMode}
           />
 
-          <TextField
-            label="Religion"
-            name="religion"
-            register={register}
-            error={errors.religion}
-            placeholder="Enter your religion"
-            viewMode={viewMode}
-          />
-
           {/* Nested Emergency Contact Fields */}
           <TextField
             label="Emergency Contact Name"
@@ -138,6 +129,16 @@ const PatientForm = ({
             register={register}
             error={errors.emergencyContact?.relationship}
             placeholder="Enter relationship"
+            viewMode={viewMode}
+          />
+          {/* Nested Emergency Contact Fields */}
+
+          <TextField
+            label="Religion"
+            name="religion"
+            register={register}
+            error={errors.religion}
+            placeholder="Enter your religion"
             viewMode={viewMode}
           />
           {status && <Status status={status} />}

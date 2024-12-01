@@ -1,6 +1,8 @@
 import { PatientForm } from "@/core/entities/PatientForm/entity/PatientForm.entity";
-import { IPaitentStatusColor, patientFormSchema } from "@/core/entities/PatientForm/entity/PatientForm.repository";
-import { IStatus } from "@/shared/components/Status";
+import {
+  IPaitentStatusColor,
+  patientFormSchema,
+} from "@/core/entities/PatientForm/entity/PatientForm.repository";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   FieldErrors,
@@ -18,7 +20,7 @@ export interface IPatientFormViewModel {
   isValid: boolean;
   viewMode?: boolean;
   label: string;
-  image?: string
+  image?: string;
 }
 
 export const usePatientFormViewModel = () => {
@@ -28,6 +30,8 @@ export const usePatientFormViewModel = () => {
     handleSubmit,
     setValue,
     reset,
+    getValues,
+    trigger,
     formState: { errors, isValid, isSubmitSuccessful, isSubmitted },
     setError,
   } = useForm<PatientForm>({
@@ -55,6 +59,14 @@ export const usePatientFormViewModel = () => {
     console.log("SUBMIT SUCCESS", patientForm);
   };
 
+  const setPatientData = (patientForm: PatientForm) => {
+    Object.entries(patientForm).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        setValue(key as keyof typeof patientForm, value, { shouldValidate: false });
+      }
+    });
+  };
+
   return {
     watch,
     register,
@@ -66,6 +78,9 @@ export const usePatientFormViewModel = () => {
     isSubmitSuccessful,
     isSubmitted,
     setValue,
-    reset
+    reset,
+    getValues,
+    trigger,
+    setPatientData,
   };
 };

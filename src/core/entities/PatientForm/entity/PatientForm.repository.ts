@@ -4,8 +4,13 @@ export const patientFormSchema = z.object({
   firstName: z.string().min(1, { message: "กรุณากรอกชื่อจริง" }),
   middleName: z.string().optional(),
   lastName: z.string().min(1, { message: "กรุณากรอกนามสกุล" }),
-  dateOfBirth: z.string(),
-  gender: z.string(),
+  dateOfBirth: z
+    .string()
+    .min(1, { message: "กรุณากรอก เดือน/วัน/ปี เกิด" })
+    .refine((date) => !isNaN(Date.parse(date)), {
+      message: "กรอกรูปแบบ เดือน/วัน/ปี",
+    }),
+  gender: z.string().min(1, { message: "กรุณาระบุเพศ" }),
   phoneNumber: z
     .string()
     .regex(/^\+?[0]\d{1,14}$/, { message: "หมายเลขโทรศัพท์ไม่ถูกต้อง" })

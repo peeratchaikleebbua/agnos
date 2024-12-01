@@ -8,8 +8,15 @@ import { SOCKET_URL } from "@/infrastructures/socket-io/config/socket-io.config"
 import React, { useEffect } from "react";
 
 const StaffPage = () => {
-  const { handleSubmit, onSubmit, register, watch, errors, isValid, reset } =
-    usePatientFormViewModel();
+  const {
+    handleSubmit,
+    onSubmit,
+    register,
+    watch,
+    errors,
+    isValid,
+    setPatientData,
+  } = usePatientFormViewModel();
 
   const { patientData, patientStatus } = usePatientFormSocket({
     url: SOCKET_URL,
@@ -18,7 +25,9 @@ const StaffPage = () => {
   });
 
   useEffect(() => {
-    reset(patientData?.patientForm);
+    if (patientData) {
+      setPatientData(patientData?.patientForm);
+    }
   }, [patientData]);
 
   return (

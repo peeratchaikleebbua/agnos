@@ -38,6 +38,7 @@ export const usePatientFormSocket = ({
     []
   );
 
+  // handle listen to event
   const { handleEmitEvent, isConnected, socket } = useSocketIOConnection({
     url,
     eventHandlers: {
@@ -48,19 +49,22 @@ export const usePatientFormSocket = ({
     },
   });
 
-  const updatePatientForm = (data) => {
-    handleEmitEvent("patientForm:update", data);
-  };
+ 
 
   const patientStatus = patientStatusColor.find(
     (patient) => patient.status === patientData?.status
   );
 
+  // handle emit update patientData
+  const updatePatientForm = (data: unknown) => {
+    handleEmitEvent("patientForm:update", data);
+  };
+
   useEffect(() => {
-    if (isSubmitSuccessful) {
-      const submittedPatientData = {
+    if (isSubmitSuccessful && patientData) {
+      const submittedPatientData: IPatientFormSocketViewModel = {
         clientId: socket?.id,
-        patientForm: patientData,
+        patientForm: patientData.patientForm,
         status: PatientStatusEnum.SUBMIT,
       };
       updatePatientForm(submittedPatientData);
@@ -77,19 +81,19 @@ export const usePatientFormSocket = ({
           ? PatientStatusEnum.SUBMIT
           : PatientStatusEnum.ACTIVE;
 
-        const patientData = {
+        const updatePatientData = {
           clientId: socket?.id,
           patientForm: patient,
           status,
         };
 
-        updatePatientForm(patientData);
+        updatePatientForm(updatePatientData);
 
         // Set inactivity timeout
         if (status === PatientStatusEnum.ACTIVE) {
           inactivityTimeout.current = setTimeout(() => {
             const inactiveData = {
-              ...patientData,
+              ...updatePatientData,
               status: PatientStatusEnum.INACTIVE, // If user stops typing for 5 seconds, status becomes "inactive"
             };
             updatePatientForm(inactiveData);
@@ -110,7 +114,7 @@ export const usePatientFormSocket = ({
     isConnected,
     patientData,
     patientStatus,
-    submitSuccess: patientStatus?.status === PatientStatusEnum.SUBMIT
+    submitSuccess: patientStatus?.status === PatientStatusEnum.SUBMIT,
   };
 };
 
