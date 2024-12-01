@@ -15,6 +15,7 @@ const useSocketIOConnection = ({
 
   const socketClient = (socketUrl: string) => {
     const socket = io(socketUrl, {
+      reconnection: true,
       autoConnect: true,
       transports: ["websocket"],
     });
@@ -25,12 +26,12 @@ const useSocketIOConnection = ({
 
     socket.on("connect", () => {
       setIsConnected(true);
-      console.log("Connected");
+      // console.log("Connected");
     });
 
     socket.on("disconnect", () => {
       setIsConnected(false);
-      console.log("Disconnected");
+      // console.log("Disconnected");
     });
     
     // Register custom event handlers
@@ -62,7 +63,7 @@ const useSocketIOConnection = ({
 
     socket.on("connect_error", async (err) => {
       console.log(`connect_error : ${err.message}`);
-      //   await fetch("/api/socket");
+      // socket.connect()
     });
   };
 

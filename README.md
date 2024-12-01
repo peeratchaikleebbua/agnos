@@ -15,6 +15,8 @@ Open [http://localhost:3000](http://localhost:3000) in any browser to see the we
 
 # Project Folder Structure
 
+This pro
+
 ├── pages/ # Next.js Pages (Routing and API routes) 
 │ ├── api/ # API Routes (Socket.IO server) 
 │ │ └── socket.js # Real-time Socket.IO server logic 
