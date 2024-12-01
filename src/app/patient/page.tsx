@@ -16,7 +16,6 @@ const PatientPage = () => {
     errors,
     isValid,
     isSubmitted,
-    setValue,
   } = usePatientFormViewModel();
 
   const { submitSuccess } = usePatientFormSocket({

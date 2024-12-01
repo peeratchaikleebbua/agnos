@@ -7,7 +7,7 @@ import {
 import { UserRole } from "@/core/entities/User/entity/User.repository";
 import useSocketIOConnection from "@/shared/hooks/useSocketIOConnection";
 import { useEffect, useRef, useState } from "react";
-import { UseFormReset, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import { UseFormWatch } from "react-hook-form";
 
 export interface IPatientFormSocketViewModel {
   clientId?: string;
@@ -19,8 +19,6 @@ export interface IPatientFormSocket {
   url: string;
   watch: UseFormWatch<PatientForm>;
   isSubmitSuccessful?: boolean;
-  receivePatientForm?: UseFormSetValue<PatientForm>;
-  reset?: UseFormReset<PatientForm>;
   mode: UserRole;
 }
 
@@ -28,15 +26,13 @@ export const usePatientFormSocket = ({
   url,
   watch,
   isSubmitSuccessful,
-  receivePatientForm,
-  reset,
   mode,
 }: IPatientFormSocket) => {
   const inactivityTimeout = useRef<NodeJS.Timeout | null>(null);
   const [patientData, setPatientData] = useState<IPatientFormSocketViewModel>();
-  const [patientList, setPatientList] = useState<IPatientFormSocketViewModel[]>(
-    []
-  );
+  // const [patientList, setPatientList] = useState<IPatientFormSocketViewModel[]>(
+  //   []
+  // );
 
   // handle listen to event
   const { handleEmitEvent, isConnected, socket } = useSocketIOConnection({
@@ -44,7 +40,7 @@ export const usePatientFormSocket = ({
     eventHandlers: {
       "patientForm:recent": (patientForm: IPatientFormSocketViewModel) => {
         setPatientData(patientForm);
-        setPatientList((prevList) => updatePatientList(prevList, patientForm));
+        // setPatientList((prevList) => updatePatientList(prevList, patientForm));
       },
     },
   });
@@ -118,21 +114,21 @@ export const usePatientFormSocket = ({
   };
 };
 
-function updatePatientList(
-  prevList: IPatientFormSocketViewModel[],
-  newPatient: IPatientFormSocketViewModel
-) {
-  const existingPatient = prevList.findIndex(
-    (patient) => patient.clientId === newPatient.clientId
-  );
+// function updatePatientList(
+//   prevList: IPatientFormSocketViewModel[],
+//   newPatient: IPatientFormSocketViewModel
+// ) {
+//   const existingPatient = prevList.findIndex(
+//     (patient) => patient.clientId === newPatient.clientId
+//   );
 
-  if (existingPatient !== -1) {
-    // update existing patient Data
-    const updatedPatientList = [...prevList];
-    updatedPatientList[existingPatient] = newPatient;
-    return updatedPatientList;
-  } else {
-    // add new patient to the list
-    return [...prevList, newPatient];
-  }
-}
+//   if (existingPatient !== -1) {
+//     // update existing patient Data
+//     const updatedPatientList = [...prevList];
+//     updatedPatientList[existingPatient] = newPatient;
+//     return updatedPatientList;
+//   } else {
+//     // add new patient to the list
+//     return [...prevList, newPatient];
+//   }
+// }
