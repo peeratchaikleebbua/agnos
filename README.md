@@ -31,7 +31,7 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) in any browser to see the web.
 
-# Project Folder Structure
+## Project Folder Structure
 
 - This project for Agnos utilize Clean architecture to outline the project
 
@@ -72,4 +72,12 @@ Open [http://localhost:3000](http://localhost:3000) in any browser to see the we
 
 > Note: If Project is tended to be larger, I will use Atomic Design Pattern to help organizing Component in Feature
 
-# Development Planning Documentation
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`NEXT_PUBLIC_API_URL`
+
+## Authors
+
+- [@peeratchaikleebbua](https://github.com/peeratchaikleebbua)
