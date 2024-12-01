@@ -1,8 +1,9 @@
 "use client";
 
+import { UserRole } from "@/core/entities/User/entity/User.repository";
 import PatientForm from "@/features/patientForm/components/PatientForm";
-import { usePatientFormSocket } from "@/features/patientForm/hooks/usePatientFormSocket";
-import { usePatientFormViewModel } from "@/features/patientForm/hooks/usePatientFormViewModel";
+import { usePatientFormSocket } from "@/features/patientForm/hooks/viewModels/usePatientFormSocket";
+import { usePatientFormViewModel } from "@/features/patientForm/hooks/viewModels/usePatientFormViewModel";
 import { SOCKET_URL } from "@/infrastructures/socket-io/config/socket-io.config";
 import React from "react";
 
@@ -18,14 +19,11 @@ const PatientPage = () => {
     setValue,
   } = usePatientFormViewModel();
 
-  console.log("error", errors);
-  console.log("isValid", isValid);
-
-  const {} = usePatientFormSocket({
+  const { submitSuccess } = usePatientFormSocket({
     url: SOCKET_URL,
     watch: watch,
     isSubmitSuccessful: isSubmitted,
-    mode: "patient",
+    mode: UserRole.PATIENT,
   });
   return (
     <PatientForm
@@ -34,6 +32,9 @@ const PatientPage = () => {
       register={register}
       errors={errors}
       isValid={isValid}
+      label="Agnos Patient Form"
+      image="/patient_image.png"
+      viewMode={submitSuccess}
     />
   );
 };

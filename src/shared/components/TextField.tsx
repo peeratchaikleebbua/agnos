@@ -26,7 +26,8 @@ const TextField = ({
     <div className="grid gap-2">
       {label && (
         <label htmlFor={name} className="text-sm font-medium text-gray-700">
-          {label}
+          {label}{" "}
+          {error && <span className="text-red-700">{error.message}</span>}
         </label>
       )}
       <input
@@ -35,9 +36,10 @@ const TextField = ({
         type={type}
         placeholder={placeholder}
         {...register(name, valueAsNumber ? { valueAsNumber: true } : {})}
-        className={`w-full py-4 "shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${viewMode && "bg-gray-100"}`}
+        className={`w-full py-4 "shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+          viewMode && "bg-gray-100"
+        } ${error && "border-red-700"}`}
       />
-      {error && <span className="text-red-700">{error.message}</span>}
     </div>
   );
 };

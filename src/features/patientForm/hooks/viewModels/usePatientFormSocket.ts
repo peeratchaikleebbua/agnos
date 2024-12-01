@@ -1,4 +1,10 @@
 import { PatientForm } from "@/core/entities/PatientForm/entity/PatientForm.entity";
+import {
+  patientFormDuration,
+  patientStatusColor,
+  PatientStatusEnum,
+} from "@/core/entities/PatientForm/entity/PatientForm.repository";
+import { UserRole } from "@/core/entities/User/entity/User.repository";
 import useSocketIOConnection from "@/shared/hooks/useSocketIOConnection";
 import { useEffect, useRef, useState } from "react";
 import { UseFormReset, UseFormSetValue, UseFormWatch } from "react-hook-form";
@@ -15,7 +21,7 @@ export interface IPatientFormSocket {
   isSubmitSuccessful?: boolean;
   receivePatientForm?: UseFormSetValue<PatientForm>;
   reset?: UseFormReset<PatientForm>;
-  mode: "staff" | "patient";
+  mode: UserRole;
 }
 
 export const usePatientFormSocket = ({
@@ -28,12 +34,16 @@ export const usePatientFormSocket = ({
 }: IPatientFormSocket) => {
   const inactivityTimeout = useRef<NodeJS.Timeout | null>(null);
   const [patientData, setPatientData] = useState<IPatientFormSocketViewModel>();
+  const [patientList, setPatientList] = useState<IPatientFormSocketViewModel[]>(
+    []
+  );
 
   const { handleEmitEvent, isConnected, socket } = useSocketIOConnection({
     url,
     eventHandlers: {
       "patientForm:recent": (patientForm: IPatientFormSocketViewModel) => {
         setPatientData(patientForm);
+        setPatientList((prevList) => updatePatientList(prevList, patientForm));
       },
     },
   });
@@ -42,15 +52,30 @@ export const usePatientFormSocket = ({
     handleEmitEvent("patientForm:update", data);
   };
 
+  const patientStatus = patientStatusColor.find(
+    (patient) => patient.status === patientData?.status
+  );
+
   useEffect(() => {
-    if (mode === "patient") {
+    if (isSubmitSuccessful) {
+      const submittedPatientData = {
+        clientId: socket?.id,
+        patientForm: patientData,
+        status: PatientStatusEnum.SUBMIT,
+      };
+      updatePatientForm(submittedPatientData);
+    }
+
+    if (mode === UserRole.PATIENT) {
       const { unsubscribe } = watch((patient) => {
         // Clear inactivity timeout on typing
         if (inactivityTimeout.current) {
           clearTimeout(inactivityTimeout.current);
         }
 
-        const status = isSubmitSuccessful ? "submitted" : "active";
+        const status = isSubmitSuccessful
+          ? PatientStatusEnum.SUBMIT
+          : PatientStatusEnum.ACTIVE;
 
         const patientData = {
           clientId: socket?.id,
@@ -58,19 +83,17 @@ export const usePatientFormSocket = ({
           status,
         };
 
-        console.log("run ", mode);
-
         updatePatientForm(patientData);
 
         // Set inactivity timeout
-        if (status === "active") {
+        if (status === PatientStatusEnum.ACTIVE) {
           inactivityTimeout.current = setTimeout(() => {
             const inactiveData = {
               ...patientData,
-              status: "inactive", // If user stops typing for 5 seconds, status becomes "inactive"
+              status: PatientStatusEnum.INACTIVE, // If user stops typing for 5 seconds, status becomes "inactive"
             };
             updatePatientForm(inactiveData);
-          }, 5000); // 5 seconds of inactivity
+          }, patientFormDuration); // 5 seconds of inactivity
         }
       });
 
@@ -86,5 +109,26 @@ export const usePatientFormSocket = ({
   return {
     isConnected,
     patientData,
+    patientStatus,
+    submitSuccess: patientStatus?.status === PatientStatusEnum.SUBMIT
   };
 };
+
+function updatePatientList(
+  prevList: IPatientFormSocketViewModel[],
+  newPatient: IPatientFormSocketViewModel
+) {
+  const existingPatient = prevList.findIndex(
+    (patient) => patient.clientId === newPatient.clientId
+  );
+
+  if (existingPatient !== -1) {
+    // update existing patient Data
+    const updatedPatientList = [...prevList];
+    updatedPatientList[existingPatient] = newPatient;
+    return updatedPatientList;
+  } else {
+    // add new patient to the list
+    return [...prevList, newPatient];
+  }
+}

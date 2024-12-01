@@ -1,5 +1,6 @@
 import { PatientForm } from "@/core/entities/PatientForm/entity/PatientForm.entity";
-import { patientFormSchema } from "@/core/entities/PatientForm/entity/PatientForm.repository";
+import { IPaitentStatusColor, patientFormSchema } from "@/core/entities/PatientForm/entity/PatientForm.repository";
+import { IStatus } from "@/shared/components/Status";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   FieldErrors,
@@ -9,13 +10,15 @@ import {
 } from "react-hook-form";
 
 export interface IPatientFormViewModel {
-  status?: string;
+  status?: IPaitentStatusColor;
   handleSubmit: UseFormHandleSubmit<PatientForm>;
   onSubmit: (patientForm: PatientForm) => Promise<void>;
   register: UseFormRegister<PatientForm>;
   errors: FieldErrors<PatientForm>;
   isValid: boolean;
   viewMode?: boolean;
+  label: string;
+  image?: string
 }
 
 export const usePatientFormViewModel = () => {

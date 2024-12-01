@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import { IPatientFormViewModel } from "../hooks/usePatientFormViewModel";
+import { IPatientFormViewModel } from "../hooks/viewModels/usePatientFormViewModel";
 import TextField from "@/shared/components/TextField";
 import PatientFormContainer from "./PatientFormContainer";
+import Status from "@/shared/components/Status";
 
 const PatientForm = ({
   status,
@@ -13,12 +14,11 @@ const PatientForm = ({
   errors,
   isValid,
   viewMode = false,
+  label,
+  image,
 }: IPatientFormViewModel) => {
   return (
-    <PatientFormContainer>
-      <p>
-        {status}
-      </p>
+    <PatientFormContainer label={label} image={image}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-3">
           <TextField
@@ -140,6 +140,7 @@ const PatientForm = ({
             placeholder="Enter relationship"
             viewMode={viewMode}
           />
+          {status && <Status status={status} />}
         </div>
         {!viewMode && (
           <button
