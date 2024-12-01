@@ -69,6 +69,7 @@ Open [http://localhost:3000](http://localhost:3000) in any browser to see the we
         ├── hooks                               # Global Reusable hooks
 
 > Note: This Project is small, so I do not have interface-adaptor layer
+
 > Note: If Project is tended to be larger, I will use Atomic Design Pattern to help organizing Component in Feature
 
 # Development Planning Documentation
