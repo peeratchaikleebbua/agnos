@@ -22,24 +22,38 @@ This project for Agnos utilize Clean architecture to outline the project
 ### A typical top-level directory layout
 
     .
-    ├── build                   # Compiled files (alternatively `dist`)
-    ├── docs                    # Documentation files (alternatively `doc`)
-    ├── src                     # Source files (alternatively `lib` or `app`)
-    ├── test                    # Automated tests (alternatively `spec` or `tests`)
-    ├── tools                   # Tools and utilities
-    ├── LICENSE
-    └── README.md
+    ├── app                                 # App Router for Agnos
+    ├   ├── patient                             # Patient Route
+    ├   ├── staff                               # Staff View Route
+    ├── core                                # Entity and UseCase Layer (Entity & Business Logic)
+    ├   ├── entities                            # Entity and UseCase
+    ├       ├── PatientForm                         # PatientForm Entity
+    ├           ├── entity                              # PatientForm Entity and Repository
+    ├       ├── User                                # User Entity
+    ├           ├── entity                              # User Entity and Repository
+    ├── features                            # Feature folder
+    ├   ├── patientForm                         # PatientForm Feature
+    ├       ├── components                          # Reusable Components for PatientForm Feature
+    ├       ├── hooks                               # Reusable Hooks for PatientForm Feature
+    ├           ├── coordinators                        # Reusable Coordinator Hooks for Patient Feature
+    ├           ├── viewModel                           # Reusable ViewModel Hooks for Patient Feature
+    ├── infrastructures                     # Infrastructure Layer
+    ├   ├── socket-io                           # Socket.IO infrastructure
+    ├       ├── config                          # Config folder for Socket.IO
+    └── shared                              # Global Reusable
+        ├── components                          # Global Reusable component
+        ├── hooks                               # Global Reusable hooks
 
 > Use short lowercase names at least for the top-level files and folders except
 > `LICENSE`, `README.md`
 
-- ── app/ # Next.js Pages (Routing and API routes) 
-- ├── patient/ # Patient (route)
--   └── page.tsx 
-- ├── staff/ # Staff View (route)
--   └── page.tsx 
-- ├── page.tsx # Homepage (entry point) 
-- ── core/ # Entity and UseCase Business logic Layer
+│── app/ # Next.js Pages (Routing and API routes) 
+├── patient/ # Patient (route)
+│   └── page.tsx 
+├── staff/ # Staff View (route)
+│   └── page.tsx 
+│ ├── page.tsx # Homepage (entry point) 
+│── core/ # Entity and UseCase Business logic Layer
 │ ├── entities/ 
 │ │ └── PatientForm
 │ │   └── entity
