@@ -20,7 +20,7 @@ const PatientForm = ({
   return (
     <PatientFormContainer label={label} image={image}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-3">
           <TextField
             label="First Name"
             name="firstName"

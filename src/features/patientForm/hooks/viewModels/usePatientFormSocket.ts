@@ -30,9 +30,6 @@ export const usePatientFormSocket = ({
 }: IPatientFormSocket) => {
   const inactivityTimeout = useRef<NodeJS.Timeout | null>(null);
   const [patientData, setPatientData] = useState<IPatientFormSocketViewModel>();
-  // const [patientList, setPatientList] = useState<IPatientFormSocketViewModel[]>(
-  //   []
-  // );
 
   // handle listen to event
   const { handleEmitEvent, isConnected, socket } = useSocketIOConnection({
@@ -40,12 +37,9 @@ export const usePatientFormSocket = ({
     eventHandlers: {
       "patientForm:recent": (patientForm: IPatientFormSocketViewModel) => {
         setPatientData(patientForm);
-        // setPatientList((prevList) => updatePatientList(prevList, patientForm));
       },
     },
   });
-
- 
 
   const patientStatus = patientStatusColor.find(
     (patient) => patient.status === patientData?.status
@@ -90,10 +84,10 @@ export const usePatientFormSocket = ({
           inactivityTimeout.current = setTimeout(() => {
             const inactiveData = {
               ...updatePatientData,
-              status: PatientStatusEnum.INACTIVE, // If user stops typing for 5 seconds, status becomes "inactive"
+              status: PatientStatusEnum.INACTIVE, // If patient stops typing for interval duration, status becomes "inactive"
             };
             updatePatientForm(inactiveData);
-          }, patientFormDuration); // 5 seconds of inactivity
+          }, patientFormDuration); // duration of inactivity
         }
       });
 
@@ -113,22 +107,3 @@ export const usePatientFormSocket = ({
     submitSuccess: patientStatus?.status === PatientStatusEnum.SUBMIT,
   };
 };
-
-// function updatePatientList(
-//   prevList: IPatientFormSocketViewModel[],
-//   newPatient: IPatientFormSocketViewModel
-// ) {
-//   const existingPatient = prevList.findIndex(
-//     (patient) => patient.clientId === newPatient.clientId
-//   );
-
-//   if (existingPatient !== -1) {
-//     // update existing patient Data
-//     const updatedPatientList = [...prevList];
-//     updatedPatientList[existingPatient] = newPatient;
-//     return updatedPatientList;
-//   } else {
-//     // add new patient to the list
-//     return [...prevList, newPatient];
-//   }
-// }

@@ -26,12 +26,10 @@ const useSocketIOConnection = ({
 
     socket.on("connect", () => {
       setIsConnected(true);
-      // console.log("Connected");
     });
 
     socket.on("disconnect", () => {
       setIsConnected(false);
-      // console.log("Disconnected");
     });
     
     // Register custom event handlers
@@ -55,6 +53,7 @@ const useSocketIOConnection = ({
     }
     },
     */
+
     if (eventHandlers) {
       Object.keys(eventHandlers).forEach((event) => {
         socket.on(event, eventHandlers[event]);
@@ -63,7 +62,6 @@ const useSocketIOConnection = ({
 
     socket.on("connect_error", async (err) => {
       console.log(`connect_error : ${err.message}`);
-      // socket.connect()
     });
   };
 
@@ -73,7 +71,7 @@ const useSocketIOConnection = ({
 
   useEffect(() => {
     socketClient(url);
-    // Cleanup on component unmount
+    // Cleanup on component unmount for every event
     return () => {
       if (eventHandlers) {
         Object.keys(eventHandlers).forEach((event) => {

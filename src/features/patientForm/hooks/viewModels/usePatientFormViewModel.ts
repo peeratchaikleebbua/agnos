@@ -36,22 +36,6 @@ export const usePatientFormViewModel = () => {
     setError,
   } = useForm<PatientForm>({
     mode: "all",
-    // defaultValues: {
-    //   firstName: "Peeratchai",
-    //   lastName: "Kleebbua",
-    //   dateOfBirth: "2024-12-11",
-    //   gender: "Male",
-    //   phoneNumber: "0884452365",
-    //   email: "pee.test@gmail.com",
-    //   address: "bangkok",
-    //   preferredLanguage: "thai",
-    //   nationality: "Thailand",
-    //   emergencyContact: {
-    //     name: "NongPee",
-    //     relationship: "Brother",
-    //   },
-    //   religion: "Buddhist",
-    // },
     resolver: zodResolver(patientFormSchema),
   });
 

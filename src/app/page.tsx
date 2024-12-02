@@ -9,15 +9,15 @@ export default function Home() {
   return (
     <div className="flex flex-col justify-center items-center min-h-screen space-y-4">
       <p>Click To Observe Your Patient Customer</p>
-      <div className="flex flex-row space-x-4">
+      <div className="flex flex-row sm:space-x-4 max-sm:flex-col max-sm:space-y-4">
         <button
-          className="bg-blue-600 rounded font-bold text-white px-5 py-3 hover:bg-blue-300"
+          className="bg-blue-600 rounded font-bold text-white px-3 py-3 hover:bg-blue-300"
           onClick={() => patientFormRouter(UserRole.PATIENT)}
         >
           Open Patient Form
         </button>
         <button
-          className="bg-orange-600 rounded font-bold text-white px-5 py-3 hover:bg-orange-300"
+          className="bg-orange-600 rounded font-bold text-white px-3 py-3 hover:bg-orange-300"
           onClick={() => patientFormRouter(UserRole.STAFF)}
         >
           Open Staff View Management
